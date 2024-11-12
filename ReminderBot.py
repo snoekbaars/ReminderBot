@@ -26,7 +26,6 @@ async def on_ready():
         reminders = []
 
     while True:
-        print(reminders)
         for reminder in reminders:
             if reminder["timestamp"] < datetime.datetime.now().timestamp():
                 channel = await client.fetch_channel(reminder["channel_id"])
@@ -84,13 +83,10 @@ async def on_message(message):
             time_str = reminder_time_str.split(" ")[1]
             hour = int(time_str.split(":")[0])
             minute = int(time_str.split(":")[1])
-            print(hour, minute)
 
             datetime_utc = datetime.datetime(year=year, month=month, day=day, hour=hour, minute=minute, second=0, microsecond=0)
             datetime_cet = cet.localize(datetime_utc)
             reminder_timestamp = datetime_cet.timestamp()
-            print(datetime.datetime.now(tz=cet))
-            print(str(datetime.datetime.fromtimestamp(reminder_timestamp, tz=cet)))
             
         if content.startswith("$rr"):
             days = 0
@@ -116,16 +112,10 @@ async def on_message(message):
                     "user_id": message.author.id,
                     "channel_id": channel.id,
                     "timestamp": reminder_timestamp})
-        print(reminders)
         pickle.dump(reminders, open("reminders.p", "wb"))
         await channel.send("Set reminder for {}.".format(str(datetime.datetime.fromtimestamp(reminder_timestamp, tz=cet))[:-9]))
         return
     
     await channel.send("Not a command.")
-
-    #
-    #channel = await client.fetch_channel(reminder["channel_id"])
-    #print(user.mention)
-    #print(channel)
 
 client.run(token)
