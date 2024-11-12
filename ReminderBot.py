@@ -34,7 +34,7 @@ async def on_ready():
                 await channel.send("{} reminder: {}".format(user.mention, reminder["content"]))
                 reminders.remove(reminder)
                 pickle.dump(reminders, open("reminders.p", "wb"))
-        await asyncio.sleep(1)
+        await asyncio.sleep(30)
 
 @client.event
 async def on_message(message):
