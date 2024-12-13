@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import datetime
 from pytz import timezone
 import discord
